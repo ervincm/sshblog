@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-12-22 14:19:14 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.ervincm.entity.WaitUsersInfo" table="WaitUsersInfo">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="userName" type="java.lang.String" unique-key="user">
+            <column name="USERNAME" />
+        </property>
+        <property name="userMac" type="java.lang.String" unique-key="user">
+            <column name="USERMAC" />
+        </property>
+        <property name="vipType" type="java.lang.String" unique-key="user"> 
+            <column name="VIPTYPE" />
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="CITY" />
+        </property>
+        <property name="registerTime" type="java.util.Date">
+            <column name="REGISTERTIME" />
+        </property>
+        <property name="deadlineTime" type="java.util.Date">
+            <column name="DEADLINETIME" />
+        </property>
+    </class>
+</hibernate-mapping>

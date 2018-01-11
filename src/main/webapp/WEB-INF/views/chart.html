@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SCT-后台系</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="style/authority/bootstraptubiao.css" rel="stylesheet" />
+    <link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css"  />
+    <link href="style/authority/morris.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div id="pad-wrapper"  style="width:1008px;margin:0 auto;background:#fff;text-align:left;">
+        <h4 class="title">
+            数据统计分析
+        </h4>
+        <div class="span6 chart" style="float:left">
+            <h5>年龄</h5>
+            <div id="hero-bar1" style="height: 250px; "  ></div>
+        </div>
+        <div class="span5 chart" style="float:left">
+            <h5>上岗时间</h5>
+            <div id="hero-bar2" style="height: 250px; "></div>    
+        </div>
+        <div class="span4 chart" style="float:left">
+            <h5>资源池</h5>
+            <div id="hero-bar3" style="height: 250px; "></div>    
+        </div>
+         <div class="span6 chart" style="float:left">
+            <h5>管理辅度</h5>
+            <div id="hero-bar4" style="height: 250px; "></div>    
+        </div>
+         <div class="span5 chart" style="float:left">
+            <h5>QCC</h5>
+            <div id="hero-bar5" style="height: 250px; "></div>    
+        </div>
+        <div class="span4 chart" style="float:left">
+            <h5>导师与否</h5>
+            <div id="hero-bar6" style="height: 250px; "></div>    
+        </div>
+    </div>
+
+    <script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
+    <script src="scripts/raphael-min.js"></script>
+    <script src="scripts/morris.min.js"></script>
+    
+    
+    
+    <script type="text/javascript">
+
+        // Morris Bar Chart
+        function sortJ(a,b){
+        	return a-b;
+        }
+         function test(){
+	 		
+	     $.ajax({    
+                  	type:"post",  
+                    url:"EChartDataServlet",     
+                    //data:person_num,     
+                    dataType:"json", //很重要!!!.预期服务器返回的数据类型 ,
+                  
+                    success:function(data){
+                   		                      
+                         // Morris Donut Chart
+                        /* Morris.Donut({
+                             element: 'hero-donut',
+                             data: [
+                                 {label: 'Junior', value:5 },
+                                 {label: 'Bachelor', value: 50 },
+                                 {label: 'Graduate', value: 35 },
+                                 {label: 'Doctorate', value: 10 }
+                             ],
+                             colors: ["#30a1ec", "#76bdee", "#c4dafe","#76bdee"],
+                             formatter: function (y) { return y + "%" }
+                         });*/
+                         var params=[];
+                         for(var key in data[0]){
+                        	 params.push({年龄: key+'后', 人数: data[0][key]});
+                        	 
+                         }
+                    	Morris.Bar({
+                            element: 'hero-bar1',
+                            data: params,
+                            xkey: '年龄',
+                            ykeys: ['人数'],
+                            labels: ['人数'],
+                            barRatio: 1,
+                            xLabelMargin: 10,
+                            hideHover:'auto',
+                            barColors: ["#3599ba"]
+                        });
+                		Morris.Bar({
+                            element: 'hero-bar2',
+                            data: [
+                                {上岗时间: '1-3年', 人数:data[1]['1~3']},
+                                {上岗时间: '3-5年', 人数:data[1]['3~5']},
+                                {上岗时间: '5-10年', 人数:data[1]['5~10']},
+                				{上岗时间: '10~年', 人数: data[1]['10']},
+                                
+                                
+                            ],
+                            xkey: '上岗时间',
+                            ykeys: ['人数'],
+                            labels: ['人数'],
+                            barRatio: 1,
+                            xLabelMargin: 10,
+                            hideHover:'auto',
+                            barColors: ["#3599ba"]
+                        });
+                		
+                		Morris.Bar({
+                            element: 'hero-bar3',
+                            data: [
+                                {资源池: '后备', 人数: data[2]['后备']},
+                                {资源池: '在岗', 人数: data[2]['在岗']},
+                           ],
+                            xkey: '资源池',
+                            ykeys: ['人数'],
+                            labels: ['人数'],
+                            barRatio: 1, 
+                            xLabelMargin: 10,
+                            hideHover:'auto',
+                            barColors: ["#3599ba"]
+                        });
+                		
+                		 Morris.Bar({
+                            element: 'hero-bar4',
+                            data: [
+                                {管理辅度: '1-5人', 人数: data[3]['1-5']},
+                                {管理辅度: '6-10人', 人数: data[3]['6-10']},
+                                {管理辅度: '10-15人', 人数:data[3]['10-15']},
+                				{管理辅度: '15~人', 人数:data[3]['15-']},
+                            ],
+                            xkey: '管理辅度',
+                            ykeys: ['人数'],
+                            labels: ['人数'],
+                            barRatio: 1,
+                            xLabelMargin: 10,
+                            hideHover:'auto',
+                            barColors: ["#3599ba"]
+                        });
+                		 Morris.Bar({
+                            element: 'hero-bar5',
+                            data: [
+                                {QCC: '是', 人数: data[4]['是']},
+                                {QCC: '否', 人数: data[4]['否']},
+                            ],
+                            xkey: 'QCC',
+                            ykeys: ['人数'],
+                            labels: ['人数'],
+                            barRatio: 1,
+                            xLabelMargin: 10,
+                            hideHover:'auto',
+                            barColors: ["#3599ba"]
+                        });
+                		
+                		 Morris.Bar({
+                            element: 'hero-bar6',
+                            data: [
+                                {导师与否: '是', 人数:data[5]['是']},
+                                {导师与否: '否', 人数:data[5]['否']},     
+                            ],
+                            xkey: '导师与否',
+                            ykeys: ['人数'],
+                            labels: ['人数'],
+                            barRatio: 1,
+                            xLabelMargin: 10,
+                            hideHover:'auto',
+                            barColors: ["#3599ba"]
+                        });	  	
+                                      
+                    },  
+                    error:function(){   
+                    
+                    	alert(XMLResponse.responseText);
+                        alert("error occured!!!");   
+                        
+                    }     
+                         
+                });     
+	    
+	    
+	    }
+	   window.onload = test;
+        
+        
+        
+        
+       
+    </script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="scripts/jquery/jquery-1.7.1.js"></script>
+<link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+<script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+<script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+<title>信息管理系统</title>
+<script type="text/javascript">
+	$(document).ready(function(){
+		/** 新增   **/
+	    $("#addBtn").fancybox({
+	    	'href'  : 'add_worker_info.html',
+	    	'width' : 733,
+	        'height' : 530,
+	        'type' : 'iframe',
+	        'hideOnOverlayClick' : false,
+	        'showCloseButton' : false,
+	        'onClosed' : function() { 
+	        	window.location.href = 'worker_info_list.html';
+	        }
+	    });
+		
+	    /** 导入  **/
+	    $("#importBtn").fancybox({
+	    	'href'  : 'import_info.html',
+	    	'width' : 633,
+	        'height' : 260,
+	        'type' : 'iframe',
+	        'hideOnOverlayClick' : false,
+	        'showCloseButton' : false,
+	        'onClosed' : function() { 
+	        	window.location.href = 'worker_info_list.html';
+	        }
+	    });
+		
+	    /**编辑   **/
+	    $("a.edit").fancybox({
+	    	'width' : 733,
+	        'height' : 530,
+	        'type' : 'iframe',
+	        'hideOnOverlayClick' : false,
+	        'showCloseButton' : false,
+	        'onClosed' : function() { 
+	        	window.location.href = 'worker_info_list.html';
+	        }
+	    });
+	});
+	/** 用户角色   **/
+	var userRole = '';
+
+	/** 模糊查询来电用户  **/
+	function search(){
+		$("#submitForm").attr("action", "worker_info_list.html?page=" + 1).submit();
+	}
+
+	/** 新增   **/
+	function add(){
+		$("#submitForm").attr("action", "/xngzf/archives/luruFangyuan.action").submit();	
+	}
+	 
+	/** Excel导出  **/
+	function exportExcel(){
+		if( confirm('您确定要导出吗？') ){
+			var fyXqCode = $("#fyXq").val();
+			var fyXqName = $('#fyXq option:selected').text();
+//	 		alert(fyXqCode);
+			if(fyXqCode=="" || fyXqCode==null){
+				$("#fyXqName").val("");
+			}else{
+//	 			alert(fyXqCode);
+				$("#fyXqName").val(fyXqName);
+			}
+			$("#submitForm").attr("action", "/xngzf/archives/exportExcelFangyuan.action").submit();	
+		}
+	}
+	
+	/** 删除 **/
+	function del(fyID){
+		// 非空判断
+		if(fyID == '') return;
+		if(confirm("您确定要删除吗？")){
+			$("#submitForm").attr("action", "/xngzf/archives/delFangyuan.action?fyID=" + fyID).submit();			
+		}
+	}
+	
+	/** 批量删除 **/
+	function batchDel(){
+		if($("input[name='IDCheck']:checked").size()<=0){
+			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'至少选择一条', ok:true,});
+			return;
+		}
+		// 1）取出用户选中的checkbox放入字符串传给后台,form提交
+		var allIDCheck = "";
+		$("input[name='IDCheck']:checked").each(function(index, domEle){
+			bjText = $(domEle).parent("td").parent("tr").last().children("td").last().prev().text();
+// 			alert(bjText);
+			// 用户选择的checkbox, 过滤掉“已审核”的，记住哦
+			if($.trim(bjText)=="已审核"){
+// 				$(domEle).removeAttr("checked");
+				$(domEle).parent("td").parent("tr").css({color:"red"});
+				$("#resultInfo").html("已审核的是不允许您删除的，请联系管理员删除！！！");
+// 				return;
+			}else{
+				allIDCheck += $(domEle).val() + ",";
+			}
+		});
+		// 截掉最后一个","
+		if(allIDCheck.length>0) {
+			allIDCheck = allIDCheck.substring(0, allIDCheck.length-1);
+			// 赋给隐藏域
+			$("#allIDCheck").val(allIDCheck);
+			if(confirm("您确定要批量删除这些记录吗？")){
+				// 提交form
+				$("#submitForm").attr("action", "/xngzf/archives/batchDelFangyuan.action").submit();
+			}
+		}
+	}
+
+	/** 普通跳转 **/
+	function jumpNormalPage(page){
+		$("#submitForm").attr("action", "worker_info_list.html?page=" + page).submit();
+	}
+	
+	/** 输入页跳转 **/
+	function jumpInputPage(totalPage){
+		// 如果“跳转页数”不为空
+		if($("#jumpNumTxt").val() != ''){
+			var pageNum = parseInt($("#jumpNumTxt").val());
+			// 如果跳转页数在不合理范围内，则置为1
+			if(pageNum<1 | pageNum>totalPage){
+				art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'请输入合适的页数，\n自动为您跳到首页', ok:true,});
+				pageNum = 1;
+			}
+			$("#submitForm").attr("action", "house_list.html?page=" + pageNum).submit();
+		}else{
+			// “跳转页数”为空
+			art.dialog({icon:'error', title:'友情提示', drag:false, resize:false, content:'请输入合适的页数，\n自动为您跳到首页', ok:true,});
+			$("#submitForm").attr("action", "house_list.html?page=" + 1).submit();
+		}
+	}
+</script>
+<style>
+	.alt td{ background:black !important;}
+</style>
+</head>
+<body>
+	<form id="submitForm" name="submitForm" action="" method="post">
+		<input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
+		<input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName"/>
+		<div id="container">
+			<div class="ui_content">
+				<div class="ui_text_indent">
+					<div id="box_border">
+						<div id="box_top">搜索</div>
+						<div id="box_center">
+							姓名
+                            <input id="fyXq" type="text"  class="ui_select01"  />
+							部门
+							<select name="fangyuanEntity.fyDhCode" id="fyDh" class="ui_select01">
+                                <option value="">--请选择--</option>
+                                
+                                <option value="76">研发部</option>
+                                <option value="10">销售部</option>
+                                <option value="14">运营部</option>
+                           
+                            </select>
+							学历
+							<select name="fangyuanEntity.fyHxCode" id="fyHx" class="ui_select01">
+                                <option value="">--请选择--</option>
+                                <option value="76">博士</option>
+                                <option value="10">研究生</option>
+                                <option value="14">本科生</option>
+                                <option value="71">专科生</option>
+                            </select>
+					
+						</div>
+						<div id="box_bottom">
+							<input type="button" value="查询" class="ui_input_btn01" onclick="search();" /> 
+							<input type="button" value="新增" class="ui_input_btn01" id="addBtn" /> 
+							<input type="button" value="删除" class="ui_input_btn01" onclick="batchDel();" /> 
+							<input type="button" value="导入" class="ui_input_btn01" id="importBtn" />
+							<input type="button" value="导出" class="ui_input_btn01" onclick="exportExcel();" />
+						</div>
+					</div>
+				</div>
+			</div>
+            
+			<div class="ui_content">
+				<div class="ui_tb">
+					<table  class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+                    
+                    
+						<tr>
+							<th width="30"><input type="checkbox" id="all" onclick="selectOrClearAllCheckbox(this);" />
+							</th>
+							<th>姓名</th>
+							<th>部门</th>
+							<th>学历</th>
+							<th>证件号码</th>
+							<th>出生年月</th>
+							<th>政治面貌</th>
+							<th>籍贯</th>
+							<th>毕业院校</th>
+							<th>姓名</th>
+							<th>部门</th>
+							<th>学历</th>
+							<th>证件号码</th>
+							<th>出生年月</th>
+							<th>政治面貌</th>
+							<th>籍贯</th>
+							<th>毕业院校</th>
+							<th>姓名</th>
+							<th>部门</th>
+							<th>学历</th>
+							<th>证件号码</th>
+							<th>出生年月</th>
+							<th>政治面貌</th>
+							<th>籍贯</th>
+							<th>毕业院校</th>
+							<th>操作</th>
+
+						</tr>
+					
+					</table>
+                    
+		            <table class="table" cellspacing="0" cellpadding="0" width="100%" align="center" border="0" id="table"></table>
+	
+                    <script type="text/javascript">
+					
+					//编造表数据
+				//表头
+					var head=
+						'<tbody>';
+					var pageData=[];
+				for(var i=1;i<100;i++){
+					var data='<tr id="tr'+i+'">'+
+					'<td><input type="checkbox" name="IDCheck" value="14458579642011" class="acb" /></td>'+
+					'<td>李</td>'+
+					'<td>研发部</td>'+
+					'<td>研究生</td>'+
+					'<td>123456789</td>'+
+					'<td>199506</td>'+
+					'<td>党员</td>'+
+					'<td>四川成都</td>'+
+					'<td>X大</td>'+
+					'<td>李</td>'+
+					'<td>研发部</td>'+
+					'<td>研究生</td>'+
+					'<td>123456789</td>'+
+					'<td>199506</td>'+
+					'<td>党员</td>'+
+					'<td>四川成都</td>'+
+					'<td>X大</td>'+
+					'<td>李</td>'+
+					'<td>研发部</td>'+
+					'<td>研究生</td>'+
+					'<td>123456789</td>'+
+					'<td>199506</td>'+
+					'<td>党员</td>'+
+					'<td>四川成都</td>'+
+					'<td>X大</td>'+
+					'<td><a href="worker_info_edit.html?fyID=14458579642011" class="edit">编辑</a>'+
+					    '<a onclick="removeTr('+i+')">删除</a>'+
+								'</td>'+
+					'</tr>';
+					pageData.push(data);
+					
+				}
+				//表结尾
+				var end='</tbody>';
+				
+				var elements = $("#Table").children().length;  //表示id为“mtTable”的标签下的子标签的个数
+     
+                    $("#Table").children().eq(elements - 1).after(pageData); //在表头之后添加空白行
+				$(function(){
+					var Count = pageData.length;//记录条数
+					$('#total_id').text(Count);
+					var PageSize=10;//设置每页示数目
+					var PageCount=Math.ceil(Count/PageSize);//计算总页数
+					var currentPage =1;//当前页，默认为1。
+				
+					//显示默认页（第一页）
+					$('#table').empty().append(head);
+					for(i=(currentPage-1)*PageSize;i<PageSize*currentPage;i++){	
+						$('#table').append(pageData[i]);
+					}
+					$('#table').append(end);
+					
+						//显示上一页的内容
+					$('#last_page').click(function(){
+						var selectPage=$('#page_id').text().toString();
+						var nextPage=parseInt(selectPage)-1;
+						if(nextPage>0){//判断页码是否最后一页
+						$('#page_id').text(nextPage);
+					 /*var selectPage=$(this).attr('selectPage');*/
+					 $('#table').html('');
+						
+						for(i=(nextPage-1)*PageSize;i<PageSize*nextPage;i++){
+							$('#table').append(pageData[i]);
+						}
+						$('#table').append(end);
+						}
+						else{
+							
+						}
+					});
+					
+					//显示下一页的内容
+					$('#next_page').click(function(){
+						var selectPage=$('#page_id').text().toString();
+						var nextPage=parseInt(selectPage)+1;
+						if(nextPage<=PageCount){//判断页码是否最后一页
+						$('#page_id').text(nextPage);
+					 /*var selectPage=$(this).attr('selectPage');*/
+					 $('#table').html('');
+						
+						for(i=(nextPage-1)*PageSize;i<PageSize*nextPage;i++){
+							$('#table').append(pageData[i]);
+						}
+						$('#table').append(end);
+						}
+						else{
+							
+						}
+					});
+					//显示首页的内容
+						$('#first_page').click(function(){
+						
+						 $('#table').html('');
+						
+						for(i=(0)*PageSize;i<PageSize*1;i++){
+							$('#table').append(pageData[i]);
+						}
+						$('#table').append(end);
+					});
+
+					
+				}); 
+				
+					//删除行
+						 function removeTr(trNum){
+						  $("#tr"+trNum).remove();
+						}
+						//编辑行
+						 function editDataByOne(trNum){
+						  $this = $("#tr"+trNum);
+						  $(".addtd",$this).removeAttr("readonly");
+						} 
+				</script>
+                    
+                    
+				</div>
+				<div class="ui_tb_h30">
+					<div class="ui_flt" style="height: 30px; line-height: 30px;">
+						共有
+						<span  id="total_id" class="ui_txt_bold04">90</span>
+						条记录，当前第
+						<span id="page_id" class="ui_txt_bold04">1</span>
+						页
+					</div>
+					<div class="ui_frt">
+						<!--    如果是第一页，则只显示下一页、尾页 -->
+						
+							<input id="first_page" type="button" value="首页" class="ui_input_btn01" />
+							<input id="last_page"  type="button" value="上一页" class="ui_input_btn01" />
+							<input id="next_page" type="button" value="下一页" class="ui_input_btn01" />
+							<input type="button" value="尾页" class="ui_input_btn01"
+								onclick="jumpNormalPage(9);" />
+						
+						
+						
+						<!--     如果是最后一页，则只显示首页、上一页 -->
+						
+						转到第<input type="text" id="jumpNumTxt" class="ui_input_txt01" />页
+							 <input type="button" class="ui_input_btn01" value="跳转" onclick="jumpInputPage(9);" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+</html>

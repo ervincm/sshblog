@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-12-22 14:19:14 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.ervincm.entity.VipCountsInfo" table="VipCountsInfo">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="vipName" type="java.lang.String" unique-key="vipcount">
+            <column name="VIPNAME" />
+        </property>
+        <property name="vipPwd" type="java.lang.String">
+            <column name="VIPPWD" />
+        </property>
+        <property name="type" type="java.lang.String" unique-key="vipcount">
+            <column name="TYPE" />
+        </property>
+        <property name="phoneNumber" type="java.lang.String">
+            <column name="PHONENUMBER" />
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="CITY" />
+        </property>
+        <property name="assignedNum" type="java.lang.String">
+            <column name="ASSIGNEDNUM" />
+        </property>
+        <property name="usingNum" type="java.lang.String">
+            <column name="USINGNUM" />
+        </property>
+        <property name="changedTimes" type="java.lang.String">
+            <column name="CHANGEDTIMES" />
+        </property>
+        <property name="canChange" type="java.lang.String">
+            <column name="CANCHANGE" />
+        </property>
+        <property name="vipRegisterTime" type="java.util.Date">
+            <column name="VIPREGISTERTIME" />
+        </property>
+        <property name="vipDeadlineTime" type="java.util.Date">
+            <column name="VIPDEADLINETIME" />
+        </property>
+        <property name="assignedUsername1" type="java.lang.String">
+            <column name="ASSIGNEDUSERNAME1" />
+        </property>
+        <property name="assignedUsermac1" type="java.lang.String">
+            <column name="ASSIGNEDUSERMAC1" />
+        </property>
+        <property name="useVipState1" type="java.lang.String">
+            <column name="USEVIPSTATE1" />
+        </property>
+        <property name="registerTime1" type="java.util.Date">
+            <column name="REGISTERTIME1" />
+        </property>
+        <property name="deadlineTime1" type="java.util.Date">
+            <column name="DEADLINETIME1" />
+        </property>
+        <property name="assignedUsername2" type="java.lang.String">
+            <column name="ASSIGNEDUSERNAME2" />
+        </property>
+        <property name="assignedUsermac2" type="java.lang.String">
+            <column name="ASSIGNEDUSERMAC2" />
+        </property>
+        <property name="useVipState2" type="java.lang.String">
+            <column name="USEVIPSTATE2" />
+        </property>
+        <property name="registerTime2" type="java.util.Date">
+            <column name="REGISTERTIME2" />
+        </property>
+        <property name="deadlineTime2" type="java.util.Date">
+            <column name="DEADLINETIME2" />
+        </property>
+        <property name="assignedUsername3" type="java.lang.String">
+            <column name="ASSIGNEDUSERNAME3" />
+        </property>
+        <property name="assignedUsermac3" type="java.lang.String">
+            <column name="ASSIGNEDUSERMAC3" />
+        </property>
+        <property name="useVipState3" type="java.lang.String">
+            <column name="USEVIPSTATE3" />
+        </property>
+        <property name="registerTime3" type="java.util.Date">
+            <column name="REGISTERTIME3" />
+        </property>
+        <property name="deadlineTime3" type="java.util.Date">
+            <column name="DEADLINETIME3" />
+        </property>
+        <property name="assignedUsername4" type="java.lang.String">
+            <column name="ASSIGNEDUSERNAME4" />
+        </property>
+        <property name="assignedUsermac4" type="java.lang.String">
+            <column name="ASSIGNEDUSERMAC4" />
+        </property>
+        <property name="useVipState4" type="java.lang.String">
+            <column name="USEVIPSTATE4" />
+        </property>
+        <property name="registerTime4" type="java.util.Date">
+            <column name="REGISTERTIME4" />
+        </property>
+        <property name="deadlineTime4" type="java.util.Date">
+            <column name="DEADLINETIME4" />
+        </property>
+        <property name="assignedUsername5" type="java.lang.String">
+            <column name="ASSIGNEDUSERNAME5" />
+        </property>
+        <property name="assignedUsermac5" type="java.lang.String">
+            <column name="ASSIGNEDUSERMAC5" />
+        </property>
+        <property name="useVipState5" type="java.lang.String">
+            <column name="USEVIPSTATE5" />
+        </property>
+        <property name="registerTime5" type="java.util.Date">
+            <column name="REGISTERTIME5" />
+        </property>
+        <property name="deadlineTime5" type="java.util.Date">
+            <column name="DEADLINETIME5" />
+        </property>
+    </class>
+</hibernate-mapping>

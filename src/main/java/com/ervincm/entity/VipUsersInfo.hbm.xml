@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2017-12-22 14:19:14 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.ervincm.entity.VipUsersInfo" table="VipUsersInfo">
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="userName" type="java.lang.String">
+            <column name="USERNAME" />
+        </property>
+        <property name="userMac" type="java.lang.String" unique-key="user">
+            <column name="USERMAC" />
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="CITY" />
+        </property>
+        <property name="useChangeDay" type="java.util.Date">
+            <column name="USECHANGEDAY" />
+        </property>
+        <property name="useChangeTimes" type="java.lang.String">
+            <column name="USECHANGETIMES" />
+        </property>
+        <property name="tencentVipName" type="java.lang.String">
+            <column name="TENCENTVIPNAME" />
+        </property>
+        <property name="tencentVipPwd" type="java.lang.String">
+            <column name="TENCENTVIPPWD" />
+        </property>
+        <property name="tencentUseState" type="java.lang.String">
+            <column name="TENCENTUSESTATE" />
+        </property>
+        <property name="tencentregisterTime" type="java.util.Date">
+            <column name="TENCENTREGISTERTIME" />
+        </property>
+        <property name="tencentdeadlineTime" type="java.util.Date">
+            <column name="TENCENTDEADLINETIME" />
+        </property>
+        <property name="istencentVip" type="java.lang.String">
+            <column name="ISTENCENTVIP" />
+        </property>
+        <property name="tencentLoginTime" type="java.util.Date">
+            <column name="TENCENTLOGINTIME" />
+        </property>
+        <property name="iqiyiVipName" type="java.lang.String">
+            <column name="IQIYIVIPNAME" />
+        </property>
+        <property name="iqiyiVipPwd" type="java.lang.String">
+            <column name="IQIYIVIPPWD" />
+        </property>
+        <property name="iqiyiUseState" type="java.lang.String">
+            <column name="IQIYIUSESTATE" />
+        </property>
+        <property name="iqiyiregisterTime" type="java.util.Date">
+            <column name="IQIYIREGISTERTIME" />
+        </property>
+        <property name="iqiyideadlineTime" type="java.util.Date">
+            <column name="IQIYIDEADLINETIME" />
+        </property>
+        <property name="isiqiyiVip" type="java.lang.String">
+            <column name="ISIQIYIVIP" />
+        </property>
+        <property name="iqiyiLoginTime" type="java.util.Date">
+            <column name="IQIYILOGINTIME" />
+        </property>
+        <property name="youkuVipName" type="java.lang.String">
+            <column name="YOUKUVIPNAME" />
+        </property>
+        <property name="youkuVipPwd" type="java.lang.String">
+            <column name="YOUKUVIPPWD" />
+        </property>
+        <property name="youkuUseState" type="java.lang.String">
+            <column name="YOUKUUSESTATE" />
+        </property>
+        <property name="youkuregisterTime" type="java.util.Date">
+            <column name="YOUKUREGISTERTIME" />
+        </property>
+        <property name="youkudeadlineTime" type="java.util.Date">
+            <column name="YOUKUDEADLINETIME" />
+        </property>
+        <property name="isyoukuVip" type="java.lang.String">
+            <column name="ISYOUKUVIP" />
+        </property>
+        <property name="youkuLoginTime" type="java.util.Date">
+            <column name="YOUKULOGINTIME" />
+        </property>
+    </class>
+</hibernate-mapping>
